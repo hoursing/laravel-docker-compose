@@ -1,7 +1,7 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 # Copy composer.lock and composer.json
-COPY ./source_code/composer.lock ./source_code/composer.json /var/www/
+COPY ./src/composer.lock ./src/composer.json /var/www/
 
 # Set working directory
 WORKDIR /var/www
@@ -26,8 +26,10 @@ RUN apt-get update && apt-get install -y libzip-dev \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
-RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
+RUN docker-php-ext-install pdo_mysql zip exif pcntl
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install gd intl
 
@@ -39,10 +41,10 @@ RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
-COPY ./source_code /var/www
+COPY ./src /var/www
 
 # Copy existing application directory permissions
-COPY --chown=www:www ./source_code /var/www
+COPY --chown=www:www ./src /var/www
 
 # Change current user to www
 USER www

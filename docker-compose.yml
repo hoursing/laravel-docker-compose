@@ -6,29 +6,29 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: web_app_php
+    image: hitpay_test
     container_name: app
     restart: unless-stopped
     tty: true
     volumes:
-       - ./source_code:/var/www
+       - ./src:/var/www
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9001 remote_enable=1
     networks:
       - app-network
 
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: webserver
+    container_name: hitpay-webserver
     restart: unless-stopped
     tty: true
     volumes:
-      - ./source_code:/var/www
+      - ./src:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/log:/var/log/nginx/
     ports:
       - "80:80"
       - "443:443"
@@ -36,18 +36,18 @@ services:
       - app-network
 
   #MySQL Service
-  db:
+  database:
     image: mysql:5.7.22
-    container_name: db
+    container_name: dbmysql
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: prestashop
-      MYSQL_ROOT_PASSWORD: 13456
+      MYSQL_DATABASE: hitpay
+      MYSQL_ROOT_PASSWORD: 123456
       SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      SERVICE_NAME: dbmysql
     volumes:
       - ./db/data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
