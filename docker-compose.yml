@@ -7,14 +7,14 @@ services:
       context: .
       dockerfile: Dockerfile
     image: web_app_php
-    container_name: app
+    container_name: qs_app
     restart: unless-stopped
     tty: true
     volumes:
        - ./source_code:/var/www
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: qs_app
       SERVICE_TAGS: dev
     working_dir: /var/www
     networks:
@@ -23,29 +23,29 @@ services:
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: webserver
+    container_name: qs_webserver
     restart: unless-stopped
     tty: true
     volumes:
       - ./source_code:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     networks:
       - app-network
 
   #MySQL Service
   db:
-    image: mysql:5.7.22
-    container_name: db
+    image: mysql:5.7
+    platform: linux/x86_64
+    container_name: qs_db
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: prestashop
-      MYSQL_ROOT_PASSWORD: 13456
+      MYSQL_DATABASE: qs
+      MYSQL_ROOT_PASSWORD: 123456
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
