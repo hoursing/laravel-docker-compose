@@ -37,7 +37,8 @@ services:
 
   #MySQL Service
   database:
-    image: mysql:5.7.22
+    image: mysql:5.7
+    platform: linux/amd64
     container_name: dbmysql
     restart: unless-stopped
     tty: true
@@ -46,6 +47,7 @@ services:
     environment:
       MYSQL_DATABASE: hitpay
       MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_HOST: "%"
       SERVICE_TAGS: dev
       SERVICE_NAME: dbmysql
     volumes:
