@@ -2,15 +2,28 @@
 Build a Docker compose for Laravel project
 
 # Project
-PHP 7.4 FPM
+PHP 8.0 FPM
 Mysql
 
 # Build docker
-docker-compose up
+ 1. run command mkdir `source_code`
 
-Copy source code to source_code folder
+ 2. Move code to `source_code`
 
-Import sql to msql
+ 3. Add env with the following connection
+
+ 4. Run: `composer install` & `composer dump-autoload`
+
+ 5. Run: `php artisan key:generate`
+
+ 6. Run: `php artisan cache:clear`
+
+# DB connection
+DB_HOST=qs_db
+DB_PORT=3306
+DB_DATABASE="qs"
+DB_USERNAME="root"
+DB_PASSWORD="123456"
 
 # Rebuild Build docker
 docker-compose up --build
