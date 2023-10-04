@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.0-fpm
 
 # Copy composer.lock and composer.json
 COPY ./source_code/composer.lock ./source_code/composer.json /var/www/
@@ -33,6 +33,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install gd intl
+RUN docker-php-ext-install exif
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
