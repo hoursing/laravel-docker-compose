@@ -24,6 +24,11 @@ RUN apt-get update && apt-get install -y libzip-dev \
     nodejs \
     npm
 
+
+RUN curl -sL https://deb.nodesource.com/setup_16.x 5 | bash -
+RUN apt update -y
+RUN apt install -y nodejs
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

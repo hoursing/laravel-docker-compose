@@ -36,8 +36,9 @@ services:
 
   #MySQL Service
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     platform: linux/x86_64
+    # platform: linux/amd64 -- use if iOS
     container_name: qs_db
     restart: unless-stopped
     tty: true
