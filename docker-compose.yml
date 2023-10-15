@@ -6,15 +6,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: web_app_php
-    container_name: qs_app
+    image: health_app
+    container_name: health_app
     restart: unless-stopped
     tty: true
     volumes:
        - ./source_code:/var/www
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     environment:
-      SERVICE_NAME: qs_app
+      SERVICE_NAME: health_app
       SERVICE_TAGS: dev
     working_dir: /var/www
     networks:
@@ -23,7 +23,7 @@ services:
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: qs_webserver
+    container_name: health_webserver
     restart: unless-stopped
     tty: true
     volumes:
@@ -37,15 +37,14 @@ services:
   #MySQL Service
   db:
     image: mysql:8.0
-    platform: linux/x86_64
-    # platform: linux/amd64 -- use if iOS
-    container_name: qs_db
+    platform: linux/amd64
+    container_name: health_db
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: qs
+      MYSQL_DATABASE: health_app
       MYSQL_ROOT_PASSWORD: 123456
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
