@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('meal_category', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable(false);
+            $table->string('name')->nullable(false);
             $table->string('description');
             $table->timestamps();
         });
