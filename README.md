@@ -6,6 +6,7 @@ PHP 8.0 FPM
 Mysql 8.0
 
 # Build docker
+
  1. Run command mkdir `source_code`
 
  2. Move code to `source_code`
